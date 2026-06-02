@@ -33,7 +33,7 @@ export const dashboardRepository = {
         name: "Em Análise",
         value: pendingCount,
         change: "Aguardando Triagem",
-        changeType: "warning",
+        changeType: "neutral",
         icon: "AlertTriangle",
         iconColor: "text-amber-500",
         iconBg: "bg-amber-500/10",
