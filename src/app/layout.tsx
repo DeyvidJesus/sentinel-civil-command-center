@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Plataforma de inteligência e monitoramento ambiental",
 };
 
+import QueryProvider from "@/components/providers/query-provider";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,7 +24,9 @@ export default function RootLayout({
       lang="pt-BR"
       className={`${inter.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-background text-foreground overflow-hidden">{children}</body>
+      <body className="min-h-full flex flex-col bg-background text-foreground overflow-hidden">
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 }

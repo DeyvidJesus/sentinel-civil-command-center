@@ -5,7 +5,7 @@ import { driver } from "driver.js";
 import "driver.js/dist/driver.css";
 
 export function GuidedTour() {
-  const driverRef = useRef<any>(null);
+  const driverRef = useRef<ReturnType<typeof driver> | null>(null);
 
   useEffect(() => {
     // Check if the user has already seen the tour

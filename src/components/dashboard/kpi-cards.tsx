@@ -1,56 +1,64 @@
-import { AlertTriangle, Droplets, Flame, ShieldCheck } from "lucide-react";
-import { cn } from "@/lib/utils";
+"use client";
 
-const kpis = [
-  {
-    name: "Incidentes Ativos",
-    value: "14",
-    change: "+2 desde a última hora",
-    changeType: "negative",
-    icon: AlertTriangle,
-    iconColor: "text-status-critical",
-    iconBg: "bg-status-critical/10",
-  },
-  {
-    name: "Focos de Incêndio",
-    value: "8",
-    change: "+1 desde a última hora",
-    changeType: "negative",
-    icon: Flame,
-    iconColor: "text-status-warning",
-    iconBg: "bg-status-warning/10",
-  },
-  {
-    name: "Risco de Enchente",
-    value: "2",
-    change: "-1 desde ontem",
-    changeType: "positive",
-    icon: Droplets,
-    iconColor: "text-status-stable",
-    iconBg: "bg-status-stable/10",
-  },
-  {
-    name: "Equipes em Campo",
-    value: "32",
-    change: "Todas as unidades ativas",
-    changeType: "neutral",
-    icon: ShieldCheck,
-    iconColor: "text-primary",
-    iconBg: "bg-primary/10",
-  },
-];
+import { AlertTriangle, Droplets, Flame, ShieldCheck, AlertCircle } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useKpis } from "@/hooks/use-dashboard";
+
+// Helper to map icon string from API to component
+const getIconComponent = (iconName: string) => {
+  switch (iconName) {
+    case 'AlertTriangle': return AlertTriangle;
+    case 'Flame': return Flame;
+    case 'Droplets': return Droplets;
+    case 'ShieldCheck': return ShieldCheck;
+    default: return AlertCircle;
+  }
+};
 
 export function KpiCards() {
+  const { data: kpis, isLoading, isError } = useKpis();
+
+  if (isLoading) {
+    return (
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="rounded-xl border border-border bg-card p-5 h-[116px] flex flex-col justify-between animate-pulse">
+            <div className="flex justify-between items-start">
+              <div className="space-y-2">
+                <div className="h-4 w-24 bg-muted rounded"></div>
+                <div className="h-8 w-12 bg-muted rounded"></div>
+              </div>
+              <div className="h-12 w-12 bg-muted rounded-lg"></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="rounded-xl border border-status-critical/50 bg-status-critical/5 p-5 text-center text-status-critical flex items-center justify-center gap-2">
+        <AlertCircle className="h-5 w-5" />
+        <span className="text-sm font-medium">Falha ao carregar indicadores de performance.</span>
+      </div>
+    );
+  }
+
+  if (!kpis || kpis.length === 0) {
+    return null;
+  }
+
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
       {kpis.map((kpi) => {
-        const Icon = kpi.icon;
+        const Icon = getIconComponent(kpi.icon);
         return (
           <div
             key={kpi.name}
             className="relative overflow-hidden rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/50 hover:shadow-[0_0_15px_rgba(37,99,235,0.1)] group"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between relative z-10">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">{kpi.name}</p>
                 <p className="mt-2 text-3xl font-bold tracking-tight text-foreground">{kpi.value}</p>
@@ -64,7 +72,7 @@ export function KpiCards() {
                 <Icon className={cn("h-6 w-6", kpi.iconColor)} aria-hidden="true" />
               </div>
             </div>
-            <div className="mt-4 flex items-center text-xs">
+            <div className="mt-4 flex items-center text-xs relative z-10">
               <span
                 className={cn(
                   "font-medium",
