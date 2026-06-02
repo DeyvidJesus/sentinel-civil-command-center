@@ -39,9 +39,9 @@ NEXT_PUBLIC_OPENWEATHER_API_KEY=sua_chave_openweather_aqui
 
 # Firebase Config (Gerado no Console do Firebase > Project Settings > Web App)
 NEXT_PUBLIC_FIREBASE_API_KEY=sua_chave_aqui
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=sentinel-civil.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=sentinel-civil
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=sentinel-civil.firebasestorage.app
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=seu_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=seu_app_id_web
 ```
